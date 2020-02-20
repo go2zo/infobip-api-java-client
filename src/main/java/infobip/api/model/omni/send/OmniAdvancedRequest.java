@@ -30,6 +30,8 @@ public class OmniAdvancedRequest {
     private FacebookData facebook;
     private LineData line;
     private VKontakteData vKontakte;
+    private KakaoAlimData kakaoAlim;
+    private KakaoChinguData kakaoChingu;
     private Boolean notify;
     private Boolean intermediateReport;
     private String notifyUrl;
@@ -146,6 +148,22 @@ public class OmniAdvancedRequest {
     public OmniAdvancedRequest setVKontakte(VKontakteData vKontakte) {
         this.vKontakte = vKontakte;
         return this;
+    }
+
+    public KakaoAlimData getKakaoAlim() {
+        return this.kakaoAlim;
+    }
+
+    public void setKakaoAlim(KakaoAlimData kakaoAlim) {
+        this.kakaoAlim = kakaoAlim;
+    }
+
+    public KakaoChinguData getKakaoChingu() {
+        return this.kakaoChingu;
+    }
+
+    public void setKakaoChingu(KakaoChinguData kakaoChingu) {
+        this.kakaoChingu = kakaoChingu;
     }
 
     public Boolean getNotify() {

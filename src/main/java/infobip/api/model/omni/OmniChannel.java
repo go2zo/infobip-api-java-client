@@ -12,5 +12,7 @@ public enum OmniChannel {
     VIBER,
     FACEBOOK,
     LINE,
-    VKONTAKTE
+    VKONTAKTE,
+    KAKAO_ALIM,
+    KAKAO_CHINGU
 }

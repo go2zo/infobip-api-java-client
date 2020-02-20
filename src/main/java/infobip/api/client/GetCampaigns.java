@@ -1,12 +1,14 @@
 package infobip.api.client;
 
-import infobip.api.config.Configuration;
-import retrofit.*;
-import retrofit.http.*;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import retrofit.converter.GsonConverter;
+import infobip.api.config.Configuration;
 import infobip.api.config.TimeoutClientProvider;
 import infobip.api.model.omni.campaign.CampaignsResponse;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * This is a generated class and is not intended for modification!
@@ -23,27 +25,17 @@ public class GetCampaigns {
         CampaignsResponse execute(@Query("limit") Integer limit, @Query("page") Integer page);
     }
     public CampaignsResponse execute(Integer limit, Integer page) {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(configuration.getBaseUrl())
-                .setRequestInterceptor(getRequestInterceptor())
-                .setConverter(new GsonConverter(new GsonBuilder()
-                						.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-                						.create()))
-                .setClient(new TimeoutClientProvider(configuration))
-                .build();
-        GetCampaignsService service = restAdapter.create(GetCampaignsService.class);
-        return service.execute(limit, page);
-    }
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                .create();
 
-    private RequestInterceptor getRequestInterceptor() {
-        return new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                if (configuration != null && configuration.getAuthorizationHeader() != null) {
-                    request.addHeader("Authorization", configuration.getAuthorizationHeader());
-                    request.addHeader("User-Agent", "Java-Client-Library");
-                }
-            }
-        };
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(configuration.getBaseUrl())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(new TimeoutClientProvider(configuration).get())
+                .build();
+
+        GetCampaignsService service = retrofit.create(GetCampaignsService.class);
+        return service.execute(limit, page);
     }
 }
